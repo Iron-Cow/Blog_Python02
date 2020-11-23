@@ -8,26 +8,36 @@ Post list
 
 {% block content %}
 
- <!-- Main jumbotron for a primary marketing message or call to action -->
-  <div class="jumbotron">
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="jumbotron">
     <div class="container">
-      <h1 class="display-3">Login</h1>
-        <form class="form-group" action="/account/login" method="post">
-    {% csrf_token %}
-    {{ report }}
-    <p>
-        <label for="login_field">Login</label>
-        <input id="login_field" name="login_field" type="text" placeholder="Введите логин">
-    </p>
-    <p>
-        <label for="password_field">Password</label>
-        <input id="password_field" name="password_field" type="password" placeholder="Введите пароль">
-    </p>
-    <input id="submit" type="submit" value="Send" class="button">
-    <input type="reset" value="Clear" class="button">
-</form>
+
+        <div class="row">
+
+            {% for post in posts %}
+            {% if not post.draft or user == post.author   %}
+
+            <div class="card col-3 m-2 bg-dark text-light">
+
+
+                <h1>{{post.title}}</h1>
+                {% if post.draft %}
+                    <h4 class="text-danger text-center ">Draft</h4>
+                {% endif %}
+                <p>{{post.content | truncatechars:15}}</p>
+                <p>
+                    <span class="text-secondary">{{post.author}}</span>
+                    <a href="{% url 'post_details' post.id %}" class="text text-primary">more ... ></a>
+                </p>
+            </div>
+            {% endif %}
+         {% endfor %}
+
+        </div>
+
+
     </div>
-  </div>
+</div>
 
 {% endblock content %}
 
