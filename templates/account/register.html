@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+Register
+{% endblock title %}
+
+
+{% block content %}
+
+   <!-- Main jumbotron for a primary marketing message or call to action -->
+  <div class="jumbotron">
+    <div class="container">
+      <h1 class="display-3">Регистрация</h1>
+     <form class="form-group" action="/account/register" method="post" onsubmit="return true">
+    {% csrf_token %}
+    <div class="error">
+        {{ report }}
+    </div>
+    <p>
+        <label for="login_field">Login</label>
+        <input id="login_field" name="login_field" type="text" placeholder="Введите логин" >
+        <img id="login_ico" src="{% static 'img/question.png' %}" alt="img_result">
+        <div id="login_err" class="err"></div>
+    </p>
+    <p>
+        <label for="email_field">Email</label>
+        <input id="email_field" name="email_field" type="email" placeholder="Введите почту">
+        <img id="email_ico" src="{% static 'img/question.png' %}" alt="img_result">
+        <div id="email_err" class="err"></div>
+    </p>
+    <p>
+        <label for="password_field">Password</label>
+        <input id="password_field" name="password_field" type="password" placeholder="Введите пароль">
+        <img id="password_ico" src="{% static 'img/question.png' %}" alt="img_result">
+        <div id="password_err" class="err"></div>
+    </p>
+        <p>
+        <label for="password_confirm_field">Password Confirmation</label>
+        <input id="password_confirm_field" name="password_confirm_field" type="password" placeholder="Введите пароль еще раз">
+        <img id="password_confirm_ico"  src="{% static 'img/question.png' %}" alt="img_result">
+        <div id="password_confirm_err" class="err"></div>
+    </p>
+
+    <input id="submit" type="submit" value="Send" class="button">
+    <input type="reset" value="Clear" class="button">
+</form>
+<!--        <script src="{% static 'js/reg.js' %}"></script>-->
+
+
+    </div>
+  </div>
+
+{% endblock content %}

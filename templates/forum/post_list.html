@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Post list
+{% endblock title %}
+
+
+{% block content %}
+
+ <!-- Main jumbotron for a primary marketing message or call to action -->
+  <div class="jumbotron">
+    <div class="container">
+      <h1 class="display-3">Login</h1>
+        <form class="form-group" action="/account/login" method="post">
+    {% csrf_token %}
+    {{ report }}
+    <p>
+        <label for="login_field">Login</label>
+        <input id="login_field" name="login_field" type="text" placeholder="Введите логин">
+    </p>
+    <p>
+        <label for="password_field">Password</label>
+        <input id="password_field" name="password_field" type="password" placeholder="Введите пароль">
+    </p>
+    <input id="submit" type="submit" value="Send" class="button">
+    <input type="reset" value="Clear" class="button">
+</form>
+    </div>
+  </div>
+
+{% endblock content %}
+
+
+
+
