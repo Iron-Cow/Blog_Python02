@@ -14,28 +14,51 @@ Post list
 
         <div class="row">
 
-            {% for post in posts %}
-            {% if not post.draft or user == post.author   %}
+            {% for post in page_obj %}
+                {% if not post.draft or user == post.author   %}
 
-            <div class="card col-3 m-2 bg-dark text-light">
+                <div class="card col-3 m-2 bg-dark text-light">
 
 
-                <h1>{{post.title}}</h1>
-                {% if post.draft %}
-                    <h4 class="text-danger text-center ">Draft</h4>
+                    <h1>{{post.title}}</h1>
+                    {% if post.draft %}
+                        <h4 class="text-danger text-center ">Draft</h4>
+                    {% endif %}
+                    <p>{{ post.content | truncatechars:15}}</p>
+                    <p>
+                        <span class="text-secondary">{{post.author}}</span>
+                        <a href="{% url 'post_details' post.id %}" class="text text-primary">more ... ></a>
+                    </p>
+                </div>
                 {% endif %}
-                <p>{{post.content | truncatechars:15}}</p>
-                <p>
-                    <span class="text-secondary">{{post.author}}</span>
-                    <a href="{% url 'post_details' post.id %}" class="text text-primary">more ... ></a>
-                </p>
-            </div>
-            {% endif %}
          {% endfor %}
+
 
         </div>
 
+            <div class="row">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1" class="btn btn-secondary col-1"> 1 </a>
+                    {% if page_obj.previous_page_number != 1 %}
+                        ...
+                        <a href="?page={{page_obj.previous_page_number}}" class="btn btn-secondary col-1"> <<< </a>
+                    {% endif %}
+                {% endif %}
+                <div class="col-5 text-center"> ------ </div>
 
+
+                {% if page_obj.has_next %}
+                    {% if page_obj.next_page_number  !=  page_obj.paginator.num_pages %}
+                        <a href="?page={{page_obj.next_page_number}}" class="btn btn-secondary col-1"> >>> </a>
+                        ...
+                    {% endif %}
+                    <a href="?page={{page_obj.paginator.num_pages}}" class="btn btn-secondary col-1"> {{page_obj.paginator.num_pages}} </a>
+                {% endif %}
+
+
+
+
+            </div>
     </div>
 </div>
 

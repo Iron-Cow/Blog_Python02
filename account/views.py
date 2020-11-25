@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
+from django.contrib import messages
 
 
 def sign_in(request):
@@ -18,13 +19,16 @@ def sign_in(request):
         _password = request.POST.get('password_field')
         user = authenticate(request, username=_login, password=_password)
         if user is None:
-            data['report'] = 'Пользователь не найден или неверный пароль!'
+            messages.success(request, 'Пользователь не найден или неверный пароль!')
+            # data['report'] = 'Пользователь не найден или неверный пароль!'
             return render(request, 'account/login.html', context=data)
         else:
+            messages.success(request, 'Вы успешно зашли!')
             login(request, user)
             return redirect("/")
 
 def logout_user(request):
+    messages.success(request, 'Вы успешно вышли!')
     logout(request)
     return redirect("/")
 

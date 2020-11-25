@@ -11,18 +11,84 @@ Details
  <!-- Main jumbotron for a primary marketing message or call to action -->
   <div class="jumbotron">
     <div class="container">
+        {{liked}}
 
     <div class="card border-success text-center">
         <h1 class="text-center">{{ post.title }}</h1>
+        <p class="text-secondary">
+            Posted {{post.timestamp.date}}
+            {% if post.timestamp.date < post.updated.date %}
+                /  Edited - {{post.updated.date}}
+            {% endif %}
+        </p>
         <p class="col-6 offset-3">{{post.content}}</p>
         <p>
-          <img src="/media/{{post.image}}" alt="img">
+          <img height="300px" src="/media/{{post.image}}" alt="img">
+        </p>
+        <p class="text-secondary">
+            <span>
+                Likes: <span id="likes_count">{{post.likes.count}}</span>
+            </span>
+            <button id="like_button" class="btn btn-outline-success">:)</button>
+            Author: {{post.author}}
         </p>
 
     </div>
 
     </div>
   </div>
+
+<script>
+    $(document).ready(function () {
+
+    $('#like_button').click(function () {
+        console.log('likes work')
+
+        if ($('#like_button').text() === ':)'){
+
+
+            $.ajax({
+                url: '/forum/{{post.id}}/like',
+                method: 'GET',
+                data: {
+                    'like_action': 'add',
+                    'user': '{{user}}'
+                },
+                success: function (result) {
+                    if (result.status === 'ok'){
+                        console.log('like OK')
+                        $('#like_button').text(':) LIKED')
+                        $('#like_button').attr('class', 'btn btn-success')
+                        $('#likes_count').text(+$('#likes_count').text() + 1)
+                    }
+
+                }
+            })
+
+        }else{
+            $.ajax({
+                url: '/forum/{{post.id}}/like',
+                method: 'GET',
+                data: {
+                    'like_action': 'remove',
+                    'user': '{{user}}'
+                },
+                success: function (result) {
+                    if (result.status === 'ok'){
+                        console.log('like OK')
+                        $('#like_button').text(':)')
+                        $('#like_button').attr('class', 'btn btn-outline-success')
+                        $('#likes_count').text(+$('#likes_count').text() - 1)
+                    }
+
+                }
+            })
+        }
+    })
+})
+
+
+</script>
 
 {% endblock content %}
 
