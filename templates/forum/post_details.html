@@ -29,7 +29,12 @@ Details
             <span>
                 Likes: <span id="likes_count">{{post.likes.count}}</span>
             </span>
-            <button id="like_button" class="btn btn-outline-success">:)</button>
+            {% if liked %}
+                <button id="like_button" class="btn btn-success">:) LIKED</button>
+
+            {% else %}
+                <button id="like_button" class="btn btn-outline-success">:)</button>
+            {% endif %}
             Author: {{post.author}}
         </p>
 
